@@ -9,6 +9,7 @@
 </head>
 
 <body>
+  <button onclick="randomArray()">Random Array</button>
   <input type="text" id="array-input" placeholder="Enter array elements separated by commas" />
   <select id="algorithm-selector">
     <option value="quickSort">Quick Sort</option>
@@ -33,7 +34,13 @@
     let steps = [];
     let currentStep = 0;
     let usedPivotValues = new Set();
-
+    function randomArray() {
+      let array = [];
+      for (let i = 0; i < 10; i++) {
+        array.push(Math.floor(Math.random() * 100));
+      }
+      document.getElementById('array-input').value = array.join(',');
+    }
     function startSorting() {
       let algorithm = document.getElementById('algorithm-selector').value;
       let input = document.getElementById('array-input').value;
@@ -47,8 +54,6 @@
       steps = [];
       currentStep = 0;
       usedPivotValues.clear(); // Clear the set of used pivot values
-      // Get selected algorithm
-      // Execute the selected sorting algorithm
       updateDisplay(array); // Show the unsorted array
       switch (algorithm) {
         case 'quickSort':
