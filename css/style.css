@@ -133,19 +133,21 @@ button:hover {
   color: black;
 }
 
+.log-wrapper {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: start; /* Align to the top if needed */
+}
+
 .log-container {
   max-height: 200px;
-  /* Fixed height */
-  overflow-y: scroll;
-  /* Make it scrollable */
-  border: 1px solid #ccc;
-  /* Optional border */
-  margin-top: 20px;
-  /* Spacing */
+  width: max-content; /* Width as wide as the content */
+  overflow-y: scroll; /* Make it scrollable */
+  border: 1px solid #ccc; /* Optional border */
+  margin-top: 20px; /* Spacing */
   padding: 10px;
-  background-color: #f9f9f9;
-  /* Background color */
-  margin-top: 20px;
+  background-color: #f9f9f9; /* Background color */
   border-radius: 5px;
   opacity: 0.8;
+  box-sizing: border-box; /* Include padding and border in the width and height */
 }
