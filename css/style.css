@@ -1,0 +1,151 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-image: url("logo.png");
+  background-size: 100% auto;
+  background-position: 0px -200px;
+  background-repeat: no-repeat;
+  background-color:#F3EEEA ;
+  text-align: center;
+  padding: 20px;
+
+}
+
+input, select, button {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid #776B5D;
+  font-size: 16px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#precision-mode-label {
+  display: inline-block;
+  padding: 10px 20px 10px 40px; /* Left padding increased to accommodate pseudo-checkbox */
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: relative; /* Important for absolute positioning of pseudo-element */
+}
+
+#precision-mode-label:hover {
+  background-color: #45a049;
+}
+
+#precision-mode-checkbox {
+  display: none; /* Hide the actual checkbox */
+}
+
+#precision-mode-label::before {
+  content: '';
+  position: absolute;
+  left: 10px; /* Adjust as needed, relative to label */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-radius: 3px;
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+#precision-mode-checkbox:checked + #precision-mode-label::before {
+  background-color: #6bb20d;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+.array-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  border: 2px solid black;
+  padding: 2px;
+  /* Remove fixed width and allow the container to grow as needed */
+  border-radius: 5px;
+}
+
+#array-input {
+  width: 350px; /* Adjust as needed */
+}
+#algorithm-selector {
+  width: 200px; /* Adjust as needed */
+}
+.array-element {
+  flex: 1;
+  /* Allow each element to grow equally */
+  text-align: center;
+  border-left: 1px solid black;
+  padding: 5px;
+  box-sizing: border-box;
+  position: relative;
+  background-color: rgb(185, 185, 149);
+  /* For absolute positioning of pointers */
+  margin: 2px;
+}
+
+.array-element:first-child {
+  border-left: none;
+}
+
+.used-pivot {
+  background-color: #60934D;
+}
+
+.pivot {
+  background-color: #5F6F52;
+}
+
+.current {
+  background-color: #314E2F;
+}
+
+.comparing {
+  background-color: #59604B
+}
+
+.sorted {
+  background-color:#B9D5AF;
+}
+
+.current-sel {
+  background-color: green;
+}
+
+.pointer {
+  position: absolute;
+  top: -70px;
+  /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 50px;
+  color: black;
+}
+
+.log-container {
+  max-height: 200px;
+  /* Fixed height */
+  overflow-y: scroll;
+  /* Make it scrollable */
+  border: 1px solid #ccc;
+  /* Optional border */
+  margin-top: 20px;
+  /* Spacing */
+  padding: 10px;
+  background-color: #f9f9f9;
+  /* Background color */
+  margin-top: 20px;
+  border-radius: 5px;
+  opacity: 0.8;
+}

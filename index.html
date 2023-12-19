@@ -1,1 +1,102 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+  <title>Sorting Visualizer</title>
+  <link rel="stylesheet" href="css/style.css">
+  </style>
+</head>
+
+<body>
+  <input type="text" id="array-input" placeholder="Enter array elements separated by commas" />
+  <select id="algorithm-selector">
+    <option value="quickSort">Quick Sort</option>
+    <option value="bubbleSort">Bubble Sort</option>
+    <option value="insertionSort">Insertion Sort</option>
+    <option value="mergeSort">Merge Sort</option>
+    <option value="selectionSort">Selection Sort</option>
+  </select>
+  
+  <button onclick="startSorting()">Sort Array</button>
+  <button onclick="nextStep()">Next Step</button>
+  <input type="checkbox" id="precision-mode-checkbox" onchange="togglePrecisionMode()" hidden />
+  <label for="precision-mode-checkbox" id="precision-mode-label">Precision Mode</label>
+  <div id="array-container" class="array-container"></div>
+  <div id="log-container" class="log-container"></div>
+
+  <script src="helper/getDescription.js"></script>
+  <script src="helper/updateDisplay.js"></script>
+  <script src="helper/steps.js"></script>
+  <script>
+    let precisionMode = false;
+    let steps = [];
+    let currentStep = 0;
+    let usedPivotValues = new Set();
+
+    function startSorting() {
+      let algorithm = document.getElementById('algorithm-selector').value;
+      let input = document.getElementById('array-input').value;
+      let array = input.split(',').map(function (item) {
+        return parseInt(item, 10);
+      }).filter(function (item) {
+        return !isNaN(item);
+      });
+      logContainer = document.getElementById('log-container');
+      logContainer.innerHTML = "";
+      steps = [];
+      currentStep = 0;
+      usedPivotValues.clear(); // Clear the set of used pivot values
+      // Get selected algorithm
+      // Execute the selected sorting algorithm
+      updateDisplay(array); // Show the unsorted array
+      switch (algorithm) {
+        case 'quickSort':
+          generateQuickSortSteps(array, 0, array.length - 1, precisionMode); // Execute quick sort
+          break;
+        case 'bubbleSort':
+          generateBubbleSortSteps(array); // Execute bubble sort
+          break;
+        case 'insertionSort':
+          generateInsertionSortSteps(array); // Execute insertion sort
+          break;
+        case 'mergeSort':
+          generateMergeSortSteps(array, 0, array.length - 1, precisionMode); // Execute merge sort
+          break;
+        case 'selectionSort':
+          generateSelectionSortSteps(array); // Execute selection sort
+          break;
+      }
+    }
+    function nextStep() {
+      let algorithm = document.getElementById('algorithm-selector').value;
+      if (currentStep < steps.length) {
+          let step = steps[currentStep];
+          switch(algorithm){
+            case 'quickSort':
+              updateDisplay(step.array, step.left, step.right, step.pivot);
+              break;
+            case 'bubbleSort':
+              updateDisplay(step.array, step.left, step.right, -1, 'bubbleSort');
+              break;
+            case 'insertionSort':
+              updateDisplay(step.array, step.left,step.right, -1, 'insertionSort');
+              break;
+            case 'mergeSort':
+              updateDisplay(step.array, step.left, step.right, -1, 'mergeSort',  step.currentSegment, step.segmentColor);
+              break;
+            case 'selectionSort':
+              updateDisplay(step.array, step.left, step.right, -1, 'selectionSort');
+              break;
+          }
+          currentStep++;
+        }
+      }
+    function togglePrecisionMode() {
+      precisionMode = !precisionMode;
+      //alert("Precision Mode is now " + (precisionMode ? "ON" : "OFF"));
+      startSorting();
+    }
+  </script>
+</body>
+
+</html>
