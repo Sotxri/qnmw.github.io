@@ -89,7 +89,7 @@
     }
     function nextStep() {
       let algorithm = document.getElementById('algorithm-selector').value;
-      if (currentStep < steps.length) {
+      if (currentStep < steps.length && currentStep >= 0) {
           let step = steps[currentStep];
           switch(algorithm){
             case 'quickSort':
@@ -113,8 +113,8 @@
       }
       function previousStep() {
       let algorithm = document.getElementById('algorithm-selector').value;
-      if (currentStep < steps.length) {
-          let step = steps[currentStep];
+      if (currentStep < steps.length && currentStep >= 0) {
+          let step = steps[currentStep-1];
           switch(algorithm){
             case 'quickSort':
               updateDisplay(step.array, step.left, step.right, step.pivot);
