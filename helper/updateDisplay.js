@@ -1,7 +1,6 @@
 function updateDisplay(array, leftIndex = -1, rightIndex = -1, pivotIndex = -1, algorithm = 'quickSort', currentSegment = [-1, -1], segmentColor = null) {
     let container = document.getElementById("array-container");
     container.innerHTML = '';
-    //const totalElements = array.length;
     const segmentColors = ["#add8e6", "#ffb6c1", "#90ee90", "#f0e68c", "#dda0dd"]; // Example colors
     array.forEach((value, index) => {
         let element = document.createElement("div");
@@ -56,22 +55,21 @@ function updateDisplay(array, leftIndex = -1, rightIndex = -1, pivotIndex = -1, 
                     }
                 }
                 break;
-                case 'selectionSort':
-                    // Color for the sorted part of the array
-                    if (index < rightIndex) {
-                        element.classList.add('sorted');
-                    }
-                    // Color for the unsorted part of the array
-                    else {
-                        element.classList.add('used-pivot');
-                    }
-                    // Highlight the currently selected element
-                    if (index === leftIndex) {
-                        element.classList.add('current-sel');
-                    }
-                    break;
+            case 'selectionSort':
+                // Color for the sorted part of the array
+                if (index < rightIndex) {
+                    element.classList.add('sorted');
+                }
+                // Color for the unsorted part of the array
+                else {
+                    element.classList.add('used-pivot');
+                }
+                // Highlight the currently selected element
+                if (index === leftIndex) {
+                    element.classList.add('current-sel');
+                }
+                break;
             case 'mergeSort':
-                console.log("Display Color:", segmentColor, "Index:", index);
                 if (currentSegment && index >= currentSegment[0] && index <= currentSegment[1]) {
                     element.style.backgroundColor = segmentColor;
                 }
@@ -87,7 +85,7 @@ function updateDisplay(array, leftIndex = -1, rightIndex = -1, pivotIndex = -1, 
         let stepDescription = getDescription(steps[currentStep], previousStep, leftIndex, rightIndex, pivotIndex, algorithm);
         let logContainer = document.getElementById("log-container");
         logContainer.innerHTML += "Step " + (currentStep + 1) + ": " + stepDescription + "<br>";
-        
+    
         // Check if sorting is finished
         if (currentStep === steps.length - 1) {
             logContainer.innerHTML += "Finished sorting.<br>";

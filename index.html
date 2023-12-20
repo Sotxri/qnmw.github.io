@@ -17,17 +17,18 @@
   <button onclick="randomArray()">Random Array</button>
   <input type="text" id="array-input" placeholder="Enter array elements separated by commas" />
   <select id="algorithm-selector">
-    <option value="quickSort">Quick Sort</option>
-    <option value="bubbleSort">Bubble Sort</option>
-    <option value="insertionSort">Insertion Sort</option>
-    <option value="mergeSort">Merge Sort</option>
-    <option value="selectionSort">Selection Sort</option>
+    <option value="insertionSort">Insertion Sort O(n²)</option>
+    <option value="bubbleSort">Bubble Sort O(n²)</option>
+    <option value="selectionSort">Selection Sort O(n²)</option>
+    <option value="mergeSort">Merge Sort O(n*log(n))</option>
+    <option value="quickSort">Quick Sort O(n*log(n))</option>  
   </select>
   
   <button onclick="startSorting()">Sort Array</button>
   <button onclick="nextStep()">Next Step</button>
   <input type="checkbox" id="precision-mode-checkbox" onchange="togglePrecisionMode()" hidden />
   <label for="precision-mode-checkbox" id="precision-mode-label">Precision Mode</label>
+  <div id="description" class="description"></div>
   <div id="array-container" class="array-container"></div>
   <div class="log-wrapper"><div id="log-container" class="log-container"></div></div>
 
@@ -55,26 +56,33 @@
         return !isNaN(item);
       });
       logContainer = document.getElementById('log-container');
-      logContainer.innerHTML = "";
+      logContainer.innerHTML = '';
       steps = [];
       currentStep = 0;
       usedPivotValues.clear(); // Clear the set of used pivot values
+      let description = document.getElementById('description');
+      description.innerHTML = '';
       updateDisplay(array); // Show the unsorted array
       switch (algorithm) {
         case 'quickSort':
           generateQuickSortSteps(array, 0, array.length - 1, precisionMode); // Execute quick sort
+          description.innerHTML = 'Traverses Array with pointers from left to right and from right to left. If the left pointer finds a value greater than the pivot and the right pointer finds a value smaller than the pivot, the values are swapped. If the pointers cross, the pivot is swapped with the value at the right pointer. The pivot is then in its final position. The array is then split into two segments at the pivot and the algorithm is executed recursively for both segments.'
           break;
         case 'bubbleSort':
           generateBubbleSortSteps(array); // Execute bubble sort
+          description.innerHTML = 'Compares two adjacent values and swaps them if the left value is greater than the right value. This is repeated until the array is sorted.'
           break;
         case 'insertionSort':
           generateInsertionSortSteps(array); // Execute insertion sort
+          description.innerHTML = 'Places the first value in the array in the sorted section. Then the next value is placed in the sorted section at the correct position. This is repeated until the array is sorted.'
           break;
         case 'mergeSort':
           generateMergeSortSteps(array, 0, array.length - 1, precisionMode); // Execute merge sort
+          description.innerHTML = 'Splits the array into segments of length 1. These segments are then merged together in the correct order. This is repeated until the array is sorted.'
           break;
         case 'selectionSort':
           generateSelectionSortSteps(array); // Execute selection sort
+          description.innerHTML = 'Finds the smallest value in the array and places it at the beginning of the array. Then the next smallest value is placed at the second position. This is repeated until the array is sorted.'
           break;
       }
     }

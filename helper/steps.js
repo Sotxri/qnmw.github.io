@@ -1,5 +1,5 @@
 let colorCounter = 0;
-const colors = ["#FF62A5", "#FFE5AE", "#6B76FF", "#711DB0","EF4040"];
+const colors = ["#FF62A5", "#FFE5AE", "#6B76FF", "#711DB0", "EF4040"];
 
 function swap(array, i, j) {
   let temp = array[i];
@@ -77,13 +77,13 @@ function generateMergeSortSteps(array, from = 0, to = array.length - 1, precisio
     colorCounter++;
   }
 }
-function merge(array, from, middle, to, segmentColor,precisionMode) {
-  
+function merge(array, from, middle, to, segmentColor, precisionMode) {
+
   let copyArray = array.slice();
   let left = from;
   let right = middle + 1;
   let index = from;
-  
+
   steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
   while (left <= middle && right <= to) {
     if (array[left] < array[right]) {
@@ -95,31 +95,31 @@ function merge(array, from, middle, to, segmentColor,precisionMode) {
       right++;
     }
     index++;
-    if(precisionMode)steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
-    
+    if (precisionMode) steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
+
   }
   while (left <= middle) {
     copyArray[index] = array[left];
     left++;
     index++;
-    if(precisionMode)steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
+    if (precisionMode) steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
 
   }
   while (right <= to) {
     copyArray[index] = array[right];
     right++;
     index++;
-    if(precisionMode)steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
+    if (precisionMode) steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
 
   }
   for (index = from; index <= to; index++) {
     array[index] = copyArray[index];
-}
-steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
+  }
+  steps.push({ array: [...array], currentSegment: [from, to], segmentColor });
 
 }
 function generateSelectionSortSteps(array) {
-  for (let i = 0; i < array.length-1; i++) {
+  for (let i = 0; i < array.length - 1; i++) {
     let min = i;
     for (let j = i; j < array.length; j++) {
       if (precisionMode) steps.push({ array: [...array], left: i, right: j });

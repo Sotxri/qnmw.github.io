@@ -71,6 +71,6 @@ function getDescription(currentStep, previousStep, leftIndex, rightIndex, pivotI
             // Default description for splitting or initial steps
             return "Finding the smallest element";
             break;
-            
+
     }
 }
