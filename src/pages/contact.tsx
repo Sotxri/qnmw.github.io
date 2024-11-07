@@ -34,9 +34,24 @@ export default function Contact() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast.success('Message sent successfully!');
-    form.reset();
+    fetch('https://formspree.io/f/mdkogwng', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+      .then((response) => {
+        if (response.ok) {
+          toast.success('Message sent successfully!');
+          form.reset();
+        } else {
+          toast.error('Failed to send message.');
+        }
+      })
+      .catch(() => {
+        toast.error('Failed to send message.');
+      });
   }
 
   return (
