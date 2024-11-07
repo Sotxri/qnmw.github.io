@@ -8,25 +8,39 @@ on:
 jobs:
   generate:
     runs-on: windows-latest
+    permissions:
+      contents: write
+      packages: write
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Set up MiKTeX
-        uses: ChristophHaag/setup-miktex@v1
-        
+      - name: Install MiKTeX
+        run: |
+          choco install miktex -y
+          refreshenv
+          initexmf --set-config-value [MPM]AutoInstall=1
+        shell: pwsh
+
+      - name: Update MiKTeX
+        run: |
+          miktex --verbose update
+          miktex --verbose packages update
+        shell: pwsh
+
       - name: Install LaTeX packages
         run: |
-          miktex --verbose package install collection-latex
-          miktex --verbose package install collection-latexextra
-          miktex --verbose package install collection-fontsrecommended
-        shell: cmd
+          miktex --verbose packages install collection-latex
+          miktex --verbose packages install collection-latexextra
+          miktex --verbose packages install collection-fontsrecommended
+        shell: pwsh
 
       - name: Run Generation Script
         run: |
@@ -42,6 +56,9 @@ jobs:
         with:
           tag_name: mock-exam-${{ github.run_number }}
           release_name: Mock Exam ${{ github.run_number }}
+          body: |
+            Automatically generated mock exam and solutions
+            Generated on ${{ github.event.repository.updated_at }}
           draft: false
           prerelease: false
 
