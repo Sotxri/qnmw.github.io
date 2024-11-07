@@ -46,9 +46,9 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <Link
             to="/"
-            className="text-2xl font-bold text-primary hover:text-primary/90"
+            className="text-2xl font-bold text-primary hover:text-primary/90 "
           >
-            Portfolio
+            <span className="font-leckerli bg-black dark:bg-white text-white dark:text-black px-2 rounded-full">Q</span>NMW
           </Link>
 
           {/* Desktop Navigation */}

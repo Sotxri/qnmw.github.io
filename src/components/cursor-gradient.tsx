@@ -17,9 +17,9 @@ export default function CursorGradient() {
 
   return (
     <div
-      className="fixed inset-0 -z-10 opacity-50 dark:opacity-30 transition-opacity duration-[2000ms] pointer-events-none"
+      className="fixed inset-0 -z -10 opacity-50 dark:opacity-30 transition-opacity duration-[2000ms] pointer-events-none"
       style={{
-        background: `radial-gradient(600px circle at ${position.x}% ${position.y}%, var(--cursor-gradient-color), transparent 40%)`,
+        background: `radial-gradient(10px circle at ${position.x}% ${position.y}%, var(--cursor-gradient-color), transparent 40%)`,
       }}
     />
   );

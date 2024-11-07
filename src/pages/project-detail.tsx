@@ -31,7 +31,7 @@ export default function ProjectDetail() {
       return (
         <Button asChild>
           <Link to={`/projects/${id}/demo`}>
-            Live Demo
+            Try it!
             <ExternalLink className="ml-2 h-4 w-4" />
           </Link>
         </Button>

@@ -20,7 +20,7 @@ export default function LatexGeneratorDemo() {
     try {
       // Fetch the latest artifacts from GitHub releases
       const response = await fetch(
-        'https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/releases/latest'
+        'https://api.github.com/repos/Sotxri/qnmw.github.io/releases/latest'
       );
       const data = await response.json();
       
@@ -55,7 +55,7 @@ export default function LatexGeneratorDemo() {
     <div className="container mx-auto p-6 space-y-8">
       <Card>
         <CardHeader>
-          <CardTitle>Mock Exam Generator</CardTitle>
+          <CardTitle>Mock Exams - Updates Daily</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex gap-4">

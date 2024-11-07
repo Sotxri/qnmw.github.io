@@ -27,18 +27,18 @@ export default function Controls({
   onPauseToggle
 }: ControlsProps) {
   return (
-    <div className="flex flex-col gap-4 items-center justify-center bg-background border p-4 rounded-lg">
-      <div className="flex flex-wrap gap-2 justify-center">
-        <button
-          onClick={onGenerate}
-          disabled={disabled}
-          className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          title="Generate new array"
-        >
-          <RotateCcw size={16} />
-          Generate
-        </button>
+    <div className="flex flex-wrap gap-4 items-center justify-center bg-background border p-4 rounded-lg">
+      <button
+        onClick={onGenerate}
+        disabled={disabled}
+        className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        title="Generate new array"
+      >
+        <RotateCcw size={16} />
+        Generate
+      </button>
 
+      <div className="flex items-center gap-2">
         <button
           onClick={() => onSort('bubble')}
           disabled={disabled}
@@ -80,7 +80,7 @@ export default function Controls({
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 justify-center">
+      <div className="flex items-center gap-2">
         <button
           onClick={onPauseToggle}
           disabled={!disabled}
@@ -102,33 +102,31 @@ export default function Controls({
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-4 justify-center items-center w-full">
-        <div className="flex items-center gap-2 min-w-[200px]">
-          <Settings size={16} className="text-gray-600" />
-          <input
-            type="range"
-            min="10"
-            max="100"
-            value={currentSize}
-            onChange={(e) => onSizeChange(Number(e.target.value))}
-            disabled={disabled}
-            className="w-32"
-          />
-          <span className="text-sm text-gray-600">Size: {currentSize}</span>
-        </div>
+      <div className="flex items-center gap-2">
+        <Settings size={16} className="text-gray-600" />
+        <input
+          type="range"
+          min="10"
+          max="100"
+          value={currentSize}
+          onChange={(e) => onSizeChange(Number(e.target.value))}
+          disabled={disabled}
+          className="w-32"
+        />
+        <span className="text-sm text-gray-600">Size: {currentSize}</span>
+      </div>
 
-        <div className="flex items-center gap-2 min-w-[200px]">
-          <Settings size={16} className="text-gray-600" />
-          <input
-            type="range"
-            min="1"
-            max="100"
-            value={currentSpeed}
-            onChange={(e) => onSpeedChange(Number(e.target.value))}
-            className="w-32"
-          />
-          <span className="text-sm text-gray-600">Speed: {currentSpeed}x</span>
-        </div>
+      <div className="flex items-center gap-2">
+        <Settings size={16} className="text-gray-600" />
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value={currentSpeed}
+          onChange={(e) => onSpeedChange(Number(e.target.value))}
+          className="w-32"
+        />
+        <span className="text-sm text-gray-600">Speed: {currentSpeed}x</span>
       </div>
     </div>
   );
