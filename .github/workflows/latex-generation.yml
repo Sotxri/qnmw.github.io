@@ -32,12 +32,15 @@ jobs:
           echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         shell: pwsh
 
-      - name: Configure MiKTeX
+      - name: Configure and Update MiKTeX
         run: |
-          miktex --verbose settings import "{ `"[MPM]`": { `"AutoInstall`": `"1`" } }"
-          miktex --verbose packages update-db
           miktex --verbose packages update
-          miktex --verbose packages install collection-basic collection-latex collection-latexextra collection-fontsrecommended
+          miktex --verbose packages install amsmath
+          miktex --verbose packages install geometry
+          miktex --verbose packages install graphics
+          miktex --verbose packages install babel-german
+          miktex --verbose packages install babel-english
+          miktex --verbose packages install hyperref
         shell: pwsh
 
       - name: Run Generation Script
