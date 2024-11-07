@@ -1,0 +1,66 @@
+name: LaTeX to PDF Generation
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight
+  workflow_dispatch:      # Allows manual triggering
+
+jobs:
+  generate:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Set up MiKTeX
+        uses: ChristophHaag/setup-miktex@v1
+        
+      - name: Install LaTeX packages
+        run: |
+          miktex --verbose package install collection-latex
+          miktex --verbose package install collection-latexextra
+          miktex --verbose package install collection-fontsrecommended
+        shell: cmd
+
+      - name: Run Generation Script
+        run: |
+          cd src/demos/latex-demo/scripts
+          ./generate-latex.bat
+        shell: cmd
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: mock-exam-${{ github.run_number }}
+          release_name: Mock Exam ${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Exam PDF
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./src/demos/latex-demo/output/Probeklausur.pdf
+          asset_name: mock-exam.pdf
+          asset_content_type: application/pdf
+
+      - name: Upload Solutions PDF
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./src/demos/latex-demo/output/ProbeklausurLosung.pdf
+          asset_name: mock-exam-solutions.pdf
+          asset_content_type: application/pdf
