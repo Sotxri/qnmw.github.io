@@ -32,15 +32,33 @@ jobs:
           echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         shell: pwsh
 
-      - name: Configure and Update MiKTeX
+      - name: Install LaTeX Packages
         run: |
           miktex --verbose packages update
-          miktex --verbose packages install amsmath
-          miktex --verbose packages install geometry
-          miktex --verbose packages install graphics
+          
+          # Basic packages
           miktex --verbose packages install babel-german
-          miktex --verbose packages install babel-english
-          miktex --verbose packages install hyperref
+          miktex --verbose packages install fontenc
+          miktex --verbose packages install xcolor
+          miktex --verbose packages install geometry
+          
+          # TikZ and related packages
+          miktex --verbose packages install pgf
+          miktex --verbose packages install tikz-qtree
+          
+          # Math and formatting packages
+          miktex --verbose packages install amsmath
+          miktex --verbose packages install array
+          miktex --verbose packages install calc
+          miktex --verbose packages install enumerate
+          miktex --verbose packages install seqsplit
+          miktex --verbose packages install multicol
+          miktex --verbose packages install siunitx
+          
+          # Additional required packages
+          miktex --verbose packages install latex-tools
+          miktex --verbose packages install latex-bin
+          miktex --verbose packages install latex-fonts
         shell: pwsh
 
       - name: Run Generation Script
