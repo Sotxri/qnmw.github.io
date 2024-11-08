@@ -46,10 +46,24 @@ abbreviations:
         meaning: "Endkapital nach n Jahren"
   - category: "Effektiver Jahreszins"
     items:
-      - symbol: "a"
-        meaning: "Abschreibungssatz (z.B. 25% = 0.25)"
-      - symbol: "d"
-        meaning: "Degressionsbetrag bei arithmetisch-degressiver Abschreibung"
+      - symbol: "j"
+        meaning: "Laufende Nummer (index) der Auszahlung eines Darlehens"
+      - symbol: "j'"
+        meaning: "Laufende Nummer einer Tilgung- oder Kostenzahlung"
+      - symbol: "e_j"
+        meaning: "Auszahlungsbetrag des Darlehens mit der Nummer j"
+      - symbol: "e'_{j'}"
+        meaning: "Betrag der Tilgungs- oder Kostenzahlung mit dem Index j'"
+      - symbol: "K"
+        meaning: "Index der letzten Auszahlung"
+      - symbol: "k'"
+        meaning: "Index der letzten Tilgung- oder Kostenzahlung"
+      - symbol: "t_j"
+        meaning: "Der in Jahren oder Jahresbruchteilen ausgedrückte Zeitabstand zwischem dem Zeitpunkt der Darlehensauszahlung mit dem Index 1 und den Zeitpunkten darauf folgender Darlehensauszahlungen mit den Nummern 2 bis k (t_1=:0)"
+      - symbol: "t'_{j'}"
+        meaning: "Der in Jahren oder Jahresbruchteilen ausgedrückte Zeitabstand zwischem dem Zeitpunkt der Darlehensauszahlung mit dem Index 1 und den Zeitpunkten darauf folgender Tilgungs- oder Kostenzahlungen mit den Nummern 1 bis k'"
+      - symbol: "i^*"
+        meaning: "Effektiver Jahrenszins"
 ---
 
 ###### **Zins und Zinseszins**
