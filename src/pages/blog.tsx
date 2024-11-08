@@ -1,14 +1,35 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { posts } from '@/data/blog-posts';
+import { getPosts } from '@/data/blog-posts';
+import type { BlogPost } from '@/utils/blog-loader';
 
 export default function Blog() {
-  const postsList = Object.entries(posts).map(([id, post]) => ({
-    id: Number(id),
-    ...post,
-  }));
+  const [posts, setPosts] = useState<Record<string, BlogPost>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const loadedPosts = await getPosts();
+        setPosts(loadedPosts);
+      } catch (error) {
+        console.error('Failed to load posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPosts();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const postsList = Object.values(posts);
 
   return (
     <motion.div
@@ -20,7 +41,7 @@ export default function Blog() {
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold">Blog</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Thoughts, tutorials, showcases and insights about anything development.
+          Thoughts, tutorials, and insights about development.
         </p>
       </div>
 
@@ -31,12 +52,14 @@ export default function Blog() {
               <CardHeader>
                 <div className="flex justify-between items-start mb-2">
                   <CardTitle className="text-2xl">{post.title}</CardTitle>
-                  <span className="text-sm text-muted-foreground">
-                    {post.readTime}
-                  </span>
+                  {post.readTime && (
+                    <span className="text-sm text-muted-foreground">
+                      {post.readTime}
+                    </span>
+                  )}
                 </div>
                 <div className="flex gap-2">
-                  {post.tags.map((tag) => (
+                  {post.tags?.map((tag) => (
                     <Badge key={tag} variant="secondary">
                       {tag}
                     </Badge>
@@ -45,13 +68,24 @@ export default function Blog() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">{post.excerpt}</p>
-                <p className="text-sm text-muted-foreground mt-4">
-                  {new Date(post.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </p>
+                <div className="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
+                  {post.author?.avatar && (
+                    <img
+                      src={post.author.avatar}
+                      alt={post.author?.name || 'Author'}
+                      className="w-6 h-6 rounded-full"
+                    />
+                  )}
+                  <span>{post.author?.name || 'Anonymous'}</span>
+                  <span>•</span>
+                  <span>
+                    {new Date(post.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
+                </div>
               </CardContent>
             </Card>
           </Link>

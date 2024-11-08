@@ -9,4 +9,11 @@ export interface BlogPost {
     name: string;
     avatar: string;
   };
+  abbreviations?: {
+    category: string;
+    items: {
+      symbol: string;
+      meaning: string;
+    }[];
+  }[];
 } 

@@ -2,12 +2,29 @@ import { motion } from 'framer-motion';
 import { useParams, Navigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import ReactMarkdown from 'react-markdown';
-import { posts } from '@/data/blog-posts';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
+import { useState, useEffect } from 'react';
+import type { BlogPost } from '@/utils/blog-loader';
+import AbbreviationsPanel from '@/components/AbbreviationsPanel';
 
 export default function BlogPost() {
   const { id } = useParams();
-  const post = posts[Number(id) as keyof typeof posts];
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const loadPost = async () => {
+      const { getPosts } = await import('@/data/blog-posts');
+      const posts = await getPosts();
+      setPost(posts[id as keyof typeof posts]);
+      setLoading(false);
+    };
+    loadPost();
+  }, [id]);
+
+  if (loading) return <div>Loading...</div>;
   if (!post) return <Navigate to="/blog" />;
 
   return (
@@ -46,8 +63,15 @@ export default function BlogPost() {
       </header>
 
       <div className="prose dark:prose-invert">
-        <ReactMarkdown>{post.content}</ReactMarkdown>
+        <ReactMarkdown
+          remarkPlugins={[remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+        >
+          {post.content}
+        </ReactMarkdown>
       </div>
+
+      <AbbreviationsPanel abbreviations={post.abbreviations} />
     </motion.article>
   );
 }

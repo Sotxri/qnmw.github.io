@@ -14,4 +14,5 @@ export default defineConfig({
     outDir: 'docs',
     assetsDir: 'assets',
   },
+  assetsInclude: ['**/*.md'],
 });
