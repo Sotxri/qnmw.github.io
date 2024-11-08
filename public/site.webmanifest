@@ -1,6 +1,7 @@
 {
   "name": "QNMW Portfolio",
   "short_name": "QNMW",
+  "start_url": "https://www.qnmw.de/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
