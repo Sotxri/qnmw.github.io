@@ -52,17 +52,23 @@ export default function Projects() {
                 <Link to={`/projects/${project.id}`}>Learn More</Link>
               </Button>
               <div className="flex gap-2">
-                {project.demoUrl && (
-                <Button asChild size="icon" variant="ghost">
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                </Button>
-                )}
+                {project.demoUrl && project.demoType === 'internal' ? (
+                  <Button asChild size="icon" variant="ghost">
+                    <Link to={project.demoUrl}>
+                      <ExternalLink className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                ) : project.demoUrl ? (
+                  <Button asChild size="icon" variant="ghost">
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  </Button>
+                ) : null}
                 {project.githubUrl && (
                   <Button asChild size="icon" variant="ghost">
                     <a
