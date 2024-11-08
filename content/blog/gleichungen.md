@@ -2,7 +2,7 @@
 title: "Gleichungen"
 excerpt: "Eine Einführung in Gleichungen"
 date: "2024-11-06"
-tags: ["Mathe", "Gleichungen"]
+tags: ["Mathe", "Gleichungen", "1. Semester"]
 readTime: "10 min read"
 author:
   name: "QNMW"

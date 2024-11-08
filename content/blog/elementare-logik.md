@@ -2,7 +2,7 @@
 title: "Elementare Logik"
 excerpt: "Eine Einführung in elementare Logik"
 date: "2024-11-03"
-tags: ["Mathe", "Aussagenlogik"]
+tags: ["Mathe", "Aussagenlogik", "1. Semester"]
 readTime: "2 min read"
 author:
   name: "QNMW"

@@ -2,7 +2,7 @@
 title: "Tilgungsrechnung"
 excerpt: "Eine Einführung in Tilgungsrechnung"
 date: "2024-11-07"
-tags: ["Mathe", "Wirtschaft", "Tilgung"]
+tags: ["Mathe", "Wirtschaft", "Tilgung", "1. Semester"]
 readTime: "5 min read"
 author:
   name: "QNMW"

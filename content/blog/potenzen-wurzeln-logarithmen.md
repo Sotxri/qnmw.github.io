@@ -2,7 +2,7 @@
 title: "Potenzen, Wurzeln und Logarithmen"
 excerpt: "Eine Einführung in Potenzen, Wurzeln und Logarithmen"
 date: "2024-11-06"
-tags: ["Mathe", "Wurzeln", "Logarithmus", "Potenzen"]
+tags: ["Mathe", "Wurzeln", "Logarithmus", "Potenzen", "1. Semester"]
 readTime: "3 min read"
 author:
   name: "QNMW"

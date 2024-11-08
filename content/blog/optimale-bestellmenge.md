@@ -2,7 +2,7 @@
 title: "Optimale Bestellmenge"
 excerpt: "Eine Einführung in die optimale Bestellmenge"
 date: "2024-11-06"
-tags: ["Mathe", "Wirtschaft"]
+tags: ["Mathe", "Wirtschaft", "1. Semester"]
 readTime: "2 min read"
 author:
   name: "QNMW"

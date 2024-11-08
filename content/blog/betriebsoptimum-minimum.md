@@ -2,7 +2,7 @@
 title: "Betriebsoptimum & Minimum"
 excerpt: "Eine Einführung in Betriebsoptimum & Minimum"
 date: "2024-11-06"
-tags: ["Mathe", "Wirtschaft"]
+tags: ["Mathe", "Wirtschaft", "1. Semester"]
 readTime: "3 min read"
 author:
   name: "QNMW"

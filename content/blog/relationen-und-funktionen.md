@@ -2,7 +2,7 @@
 title: "Relationen und Funktionen"
 excerpt: "Eine Einführung in Relationen und Funktionen"
 date: "2024-11-04"
-tags: ["Mathe", "Relationen", "Funktionen"]
+tags: ["Mathe", "Relationen", "Funktionen", "1. Semester"]
 readTime: "8 min read"
 author:
   name: "QNMW"

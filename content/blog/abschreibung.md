@@ -2,7 +2,7 @@
 title: "Abschreibungen"
 excerpt: "Eine Einführung in Abschreibungen"
 date: "2024-11-06"
-tags: ["Mathe", "Wirtschaft", "Abschreibungen"]
+tags: ["Mathe", "Wirtschaft", "Abschreibungen", "1. Semester"]
 readTime: "2 min read"
 author:
   name: "QNMW"

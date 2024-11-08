@@ -2,7 +2,7 @@
 title: "Elastizität"
 excerpt: "Eine Einführung in Elastizitäten"
 date: "2024-11-07"
-tags: ["Mathe", "Wirschaft"]
+tags: ["Mathe", "Wirtschaft", "1. Semester"]
 readTime: "2 min read"
 author:
   name: "QNMW"

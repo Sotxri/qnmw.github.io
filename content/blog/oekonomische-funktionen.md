@@ -2,7 +2,7 @@
 title: "Ökonomische Funktionen"
 excerpt: "Eine Einführung in Ökonomische Funktionen"
 date: "2024-11-07"
-tags: ["Mathe", "Wirtschaft"]
+tags: ["Mathe", "Wirtschaft", "1. Semester"]
 readTime: "2 min read"
 author:
   name: "QNMW"

@@ -2,7 +2,7 @@
 title: "Mengen und Zahlenmengen"
 excerpt: "Eine Einführung in Mengen und Zahlenmengen"
 date: "2024-11-02"
-tags: ["Mathe", "Mengen"]
+tags: ["Mathe", "Mengen", "1. Semester"]
 readTime: "5 min read"
 author:
   name: "QNMW"

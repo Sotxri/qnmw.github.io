@@ -2,7 +2,7 @@
 title: "Zins und Zinseszins"
 excerpt: "Eine Einführung in Zins und Zinseszins"
 date: "2024-11-07"
-tags: ["Mathe", "Wirtschaft", "Zinsen"]
+tags: ["Mathe", "Wirtschaft", "Zinsen", "1. Semester"]
 readTime: "10 min read"
 author:
   name: "QNMW"

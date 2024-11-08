@@ -2,7 +2,7 @@
 title: "Extremwerte"
 excerpt: "Eine Einführung in Extremwerte"
 date: "2024-11-07"
-tags: ["Mathe"]
+tags: ["Mathe", "1. Semester"]
 readTime: "8 min read"
 author:
   name: "QNMW"

@@ -2,7 +2,7 @@
 title: "Ableitung"
 excerpt: "Eine Einführung in Ableitungen"
 date: "2024-11-07"
-tags: ["Mathe", "Wirschaft"]
+tags: ["Mathe", "Wirtschaft", "1. Semester"]
 readTime: "2 min read"
 author:
   name: "QNMW"

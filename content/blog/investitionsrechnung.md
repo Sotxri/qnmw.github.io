@@ -2,7 +2,7 @@
 title: "Investitionsrechnung"
 excerpt: "Eine Einführung in Investitionsrechnung"
 date: "2024-11-07"
-tags: ["Mathe", "Wirtschaft", "Investition"]
+tags: ["Mathe", "Wirtschaft", "Investition", "1. Semester"]
 readTime: "5 min read"
 author:
   name: "QNMW"

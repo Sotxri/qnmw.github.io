@@ -2,7 +2,7 @@
 title: "Rentenrechnung"
 excerpt: "Eine Einführung in Rentenrechnung"
 date: "2024-11-07"
-tags: ["Mathe", "Wirtschaft", "Rente"]
+tags: ["Mathe", "Wirtschaft", "Rente", "1. Semester"]
 readTime: "8 min read"
 author:
   name: "QNMW"

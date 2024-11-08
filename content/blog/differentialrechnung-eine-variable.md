@@ -2,7 +2,7 @@
 title: "Differentialrechnung - Eine Variable"
 excerpt: "Eine Einführung in Differentialrechnung"
 date: "2024-11-07"
-tags: ["Mathe", "Wirtschaft", "Differentialrechnung"]
+tags: ["Mathe", "Wirtschaft", "Differentialrechnung", "1. Semester"]
 readTime: "15 min read"
 author:
   name: "QNMW"

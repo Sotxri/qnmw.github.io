@@ -2,7 +2,7 @@
 title: "Folgen und Reihen"
 excerpt: "Eine Einführung in Folgen und Reihen"
 date: "2024-11-06"
-tags: ["Mathe", "Folgen", "Reihen"]
+tags: ["Mathe", "Folgen", "Reihen", "1. Semester"]
 readTime: "5 min read"
 author:
   name: "QNMW"
