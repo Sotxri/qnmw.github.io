@@ -20,7 +20,7 @@ export const projects = {
       'Typescript',
       'Vite',
     ],
-    demoUrl: '/projects/1/demo', //kleiner button links to this
+    demoUrl: '/qnmw.github.io/projects/1/demo', //kleiner button links to this
     githubUrl: '',
     demoType: 'internal',
     demoComponent: () => import('../demos/sorting-demo').then(mod => mod.default), // Dynamic import
@@ -46,7 +46,7 @@ export const projects = {
         'LaTeX',
         'Java'
     ],
-    demoUrl: '/projects/2/demo',
+    demoUrl: '/qnmw.github.io/projects/2/demo',
     demoComponent: () => import('../demos/latex-demo').then(mod => mod.default),
     githubUrl: 'https://github.com/Sotxri/probeklausurgenerator',
     demoType: 'internal',

@@ -2,38 +2,14 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-
-const posts = [
-  {
-    id: 1,
-    title: 'Building Scalable React Applications',
-    excerpt:
-      'Learn the best practices for building large-scale React applications with modern tools and techniques.',
-    date: '2024-02-28',
-    tags: ['React', 'Architecture', 'Performance'],
-    readTime: '5 min read',
-  },
-  {
-    id: 2,
-    title: 'Understanding TypeScript Generics',
-    excerpt:
-      'A comprehensive guide to TypeScript generics and how to use them effectively in your projects.',
-    date: '2024-02-25',
-    tags: ['TypeScript', 'Programming'],
-    readTime: '7 min read',
-  },
-  {
-    id: 3,
-    title: 'Modern CSS Techniques',
-    excerpt:
-      'Explore modern CSS features and techniques for building beautiful user interfaces.',
-    date: '2024-02-20',
-    tags: ['CSS', 'Web Design'],
-    readTime: '4 min read',
-  },
-];
+import { posts } from '@/data/blog-posts';
 
 export default function Blog() {
+  const postsList = Object.entries(posts).map(([id, post]) => ({
+    id: Number(id),
+    ...post,
+  }));
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -49,7 +25,7 @@ export default function Blog() {
       </div>
 
       <div className="grid gap-6">
-        {posts.map((post) => (
+        {postsList.map((post) => (
           <Link key={post.id} to={`/blog/${post.id}`}>
             <Card className="hover:bg-muted/50 transition-colors">
               <CardHeader>

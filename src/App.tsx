@@ -8,7 +8,7 @@ import CursorGradient from '@/components/cursor-gradient';
 export default function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Router>
+      <Router basename="/qnmw.github.io/">
         <CursorGradient />
         <Layout>
           <AppRoutes />

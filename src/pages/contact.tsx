@@ -69,7 +69,12 @@ export default function Contact() {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form 
+          onSubmit={form.handleSubmit(onSubmit)} 
+          action="https://formspree.io/f/mdkogwng" 
+          method="POST" 
+          className="space-y-6"
+        >
           <FormField
             control={form.control}
             name="name"
