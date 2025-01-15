@@ -23,7 +23,7 @@ export interface BlogPost extends BlogFrontmatter {
 export async function getBlogPosts(): Promise<Record<string, BlogPost>> {
   const posts: Record<string, BlogPost> = {};
   
-  const blogFiles = import.meta.glob('/content/blog/*.md', { 
+  const blogFiles = import.meta.glob('/content/blog/**/*.md', { 
     eager: true,
     as: 'raw'
   });
@@ -34,7 +34,10 @@ export async function getBlogPosts(): Promise<Record<string, BlogPost>> {
       return;
     }
     
-    const slug = filepath.replace('/content/blog/', '').replace('.md', '');
+    const slug = filepath
+      .replace('/content/blog/', '')
+      .replace('.md', '')
+      .replace(/\//g, '-');
     const { data: frontmatter, content: markdownContent } = matter(content);
     
     posts[slug] = {
