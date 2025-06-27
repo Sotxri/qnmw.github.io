@@ -93,6 +93,10 @@ export default function CsvAnalyzer() {
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setData([]); // Reset data
+    setStats([]); // Reset stats
+    setSelectedNumeric(null); // Reset selected numeric column 
+    setSelectedCategorical(null); // Reset selected categorical column
     Papa.parse<Record<string, string>>(file, {
       header: true,
       skipEmptyLines: true,
@@ -153,7 +157,7 @@ export default function CsvAnalyzer() {
           {data.length > 0 && (
             <div className="space-y-4">
               <h2 className="font-semibold">Preview</h2>
-              <ScrollArea className="max-h-64 w-full">
+              <ScrollArea className="h-64 w-full">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -175,7 +179,7 @@ export default function CsvAnalyzer() {
               </ScrollArea>
 
               <h2 className="font-semibold">Analysis</h2>
-              <ScrollArea className="max-h-64 w-full">
+              <ScrollArea className="h-64 w-full">
                 <Table>
                   <TableHeader>
                     <TableRow>
