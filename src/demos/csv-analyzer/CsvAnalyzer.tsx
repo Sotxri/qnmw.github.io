@@ -1,4 +1,5 @@
-import { useState } from 'react';
+
+import { useState, type ChangeEvent } from 'react';
 import Papa from 'papaparse';
 import {
   Table,
@@ -24,6 +25,7 @@ import {
   Legend,
   LineChart,
   Line,
+  type LegendProps,
 } from 'recharts';
 
 interface ColumnStats {
@@ -58,11 +60,28 @@ function analyzeData(rows: Record<string, string>[]): ColumnStats[] {
   return stats;
 }
 
+function ScrollableLegend({ payload }: LegendProps) {
+  if (!payload?.length) return null;
+  return (
+    <ul className="max-h-24 overflow-y-auto space-y-1">
+      {payload.map((entry) => (
+        <li key={entry.value} className="flex items-center gap-2 text-xs">
+          <span
+            className="block h-3 w-3 rounded-sm"
+            style={{ backgroundColor: entry.color }}
+          />
+          <span>{entry.value}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function CsvAnalyzer() {
   const [data, setData] = useState<Record<string, string>[]>([]);
   const [stats, setStats] = useState<ColumnStats[]>([]);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     Papa.parse<Record<string, string>>(file, {
@@ -181,7 +200,7 @@ export default function CsvAnalyzer() {
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Tooltip />
-                      <Legend />
+                      <Legend content={ScrollableLegend} />
                       <Pie data={categoricalChartData} dataKey="value" nameKey="name" outerRadius={80}>
                         {categoricalChartData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
