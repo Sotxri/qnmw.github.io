@@ -1,5 +1,4 @@
-
-import { useState, type ChangeEvent } from 'react';
+import { useEffect, useState, type ChangeEvent } from 'react';
 import Papa from 'papaparse';
 import {
   Table,
@@ -27,6 +26,14 @@ import {
   Line,
   type LegendProps,
 } from 'recharts';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface ColumnStats {
   column: string;
@@ -80,6 +87,8 @@ function ScrollableLegend({ payload }: LegendProps) {
 export default function CsvAnalyzer() {
   const [data, setData] = useState<Record<string, string>[]>([]);
   const [stats, setStats] = useState<ColumnStats[]>([]);
+  const [selectedNumeric, setSelectedNumeric] = useState<string | null>(null);
+  const [selectedCategorical, setSelectedCategorical] = useState<string | null>(null);
 
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -95,11 +104,23 @@ export default function CsvAnalyzer() {
     });
   };
 
-  const previewRows = data.slice(0, 5);
+  const previewRows = data;
   const headers = data.length > 0 ? Object.keys(data[0]) : [];
 
-  const numericColumn = stats.find((s) => s.type === 'number');
-  const categoricalColumn = stats.find((s) => s.type === 'string');
+  const numericColumns = stats.filter((s) => s.type === 'number').map((s) => s.column);
+  const categoricalColumns = stats.filter((s) => s.type === 'string').map((s) => s.column);
+
+  useEffect(() => {
+    if (!selectedNumeric && numericColumns.length > 0) {
+      setSelectedNumeric(numericColumns[0]);
+    }
+    if (!selectedCategorical && categoricalColumns.length > 0) {
+      setSelectedCategorical(categoricalColumns[0]);
+    }
+  }, [numericColumns, categoricalColumns, selectedNumeric, selectedCategorical]);
+
+  const numericColumn = stats.find((s) => s.column === selectedNumeric);
+  const categoricalColumn = stats.find((s) => s.column === selectedCategorical);
 
   const numericChartData = numericColumn
     ? data.map((row, idx) => ({
@@ -132,82 +153,124 @@ export default function CsvAnalyzer() {
           {data.length > 0 && (
             <div className="space-y-4">
               <h2 className="font-semibold">Preview</h2>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    {headers.map((h) => (
-                      <TableHead key={h}>{h}</TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {previewRows.map((row, i) => (
-                    <TableRow key={i}>
+              <ScrollArea className="max-h-64 w-full">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
                       {headers.map((h) => (
-                        <TableCell key={h}>{row[h]}</TableCell>
+                        <TableHead key={h}>{h}</TableHead>
                       ))}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {previewRows.map((row, i) => (
+                      <TableRow key={i}>
+                        {headers.map((h) => (
+                          <TableCell key={h}>{row[h]}</TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </ScrollArea>
 
               <h2 className="font-semibold">Analysis</h2>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Column</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Count</TableHead>
-                    <TableHead>Mean</TableHead>
-                    <TableHead>Min</TableHead>
-                    <TableHead>Max</TableHead>
-                    <TableHead>Unique</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {stats.map((s) => (
-                    <TableRow key={s.column}>
-                      <TableCell>{s.column}</TableCell>
-                      <TableCell>{s.type}</TableCell>
-                      <TableCell>{s.count}</TableCell>
-                      <TableCell>{s.mean?.toFixed(2) ?? '-'}</TableCell>
-                      <TableCell>{s.min ?? '-'}</TableCell>
-                      <TableCell>{s.max ?? '-'}</TableCell>
-                      <TableCell>{s.uniqueValues ?? '-'}</TableCell>
+              <ScrollArea className="max-h-64 w-full">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Column</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Count</TableHead>
+                      <TableHead>Mean</TableHead>
+                      <TableHead>Min</TableHead>
+                      <TableHead>Max</TableHead>
+                      <TableHead>Unique</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {stats.map((s) => (
+                      <TableRow key={s.column}>
+                        <TableCell>{s.column}</TableCell>
+                        <TableCell>{s.type}</TableCell>
+                        <TableCell>{s.count}</TableCell>
+                        <TableCell>{s.mean?.toFixed(2) ?? '-'}</TableCell>
+                        <TableCell>{s.min ?? '-'}</TableCell>
+                        <TableCell>{s.max ?? '-'}</TableCell>
+                        <TableCell>{s.uniqueValues ?? '-'}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </ScrollArea>
 
-              {numericColumn && (
-                <div className="h-64">
-                  <h2 className="font-semibold mb-2">{`Bar Chart: ${numericColumn.column}`}</h2>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={numericChartData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="index" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="value" fill="#8884d8" />
-                    </BarChart>
-                  </ResponsiveContainer>
+              {numericColumns.length > 0 && numericColumn && (
+                <div className="space-y-2">
+                  <div className="w-48">
+                    <Select
+                      value={selectedNumeric ?? undefined}
+                      onValueChange={setSelectedNumeric}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select column" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {numericColumns.map((col) => (
+                          <SelectItem key={col} value={col}>
+                            {col}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="h-64">
+                    <h2 className="font-semibold mb-2">{`Bar Chart: ${numericColumn.column}`}</h2>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={numericChartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="index" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#8884d8" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
               )}
 
-              {categoricalColumn && (
-                <div className="h-64">
-                  <h2 className="font-semibold mb-2">{`Pie Chart: ${categoricalColumn.column}`}</h2>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Tooltip />
-                      <Legend content={ScrollableLegend} />
-                      <Pie data={categoricalChartData} dataKey="value" nameKey="name" outerRadius={80}>
-                        {categoricalChartData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              {categoricalColumns.length > 0 && categoricalColumn && (
+                <div className="space-y-2">
+                  <div className="w-48">
+                    <Select
+                      value={selectedCategorical ?? undefined}
+                      onValueChange={setSelectedCategorical}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select column" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categoricalColumns.map((col) => (
+                          <SelectItem key={col} value={col}>
+                            {col}
+                          </SelectItem>
                         ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="h-64">
+                    <h2 className="font-semibold mb-2">{`Pie Chart: ${categoricalColumn.column}`}</h2>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Tooltip />
+                        <Legend content={ScrollableLegend} />
+                        <Pie data={categoricalChartData} dataKey="value" nameKey="name" outerRadius={80}>
+                          {categoricalChartData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
                 </div>
               )}
             </div>

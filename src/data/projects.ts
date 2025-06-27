@@ -59,9 +59,9 @@ export const projects = {
     tags: ['React', 'PapaParse', 'Recharts'],
     features: [
       'CSV file upload and parsing',
-      'Preview of data',
+      'Scrollable preview and statistics',
       'Automatic statistics generation',
-      'Basic charts for numeric and categorical columns',
+      'Selectable charts for numeric and categorical columns',
     ],
     technologies: [
       'React',
