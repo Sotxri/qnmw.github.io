@@ -35,12 +35,6 @@ jobs:
       - name: Install Essential LaTeX Packages
         run: |
           miktex --verbose packages update
-          miktex --verbose packages install collection-basic
-          miktex --verbose packages install collection-latex
-          miktex --verbose packages install collection-latexrecommended
-          miktex --verbose packages install collection-latexextra
-          miktex --verbose packages install collection-fontsrecommended
-          miktex --verbose packages install collection-pictures
           miktex --verbose packages install pgf
           miktex --verbose packages install tikz-qtree
           miktex --verbose packages install siunitx
