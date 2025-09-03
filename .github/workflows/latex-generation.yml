@@ -45,6 +45,17 @@ jobs:
           miktex --verbose packages install tikz-qtree
           miktex --verbose packages install siunitx
           miktex --verbose packages install seqsplit
+          miktex --verbose packages install babel-german
+          miktex --verbose packages install hyphen-german
+          miktex --verbose packages install lmodern
+          miktex --verbose packages install enumitem
+          miktex --verbose packages install adjustbox
+          miktex --verbose packages install collectbox
+          miktex --verbose packages install multicol
+          miktex --verbose packages install geometry
+          miktex --verbose packages install xcolor
+          miktex --verbose packages install amsmath
+          miktex --verbose packages install array
         shell: pwsh
 
       - name: Create Output Directories
@@ -53,7 +64,7 @@ jobs:
           mkdir -p src/demos/latex-demo/output/texSolutions
         shell: pwsh
 
-      - name: Generate Exercise Files
+      - name: Generate Exercise Files for Einfuerung in die Informatik
         working-directory: src/demos/latex-demo
         run: |
           # Generate individual tex files for each exercise type
@@ -84,17 +95,42 @@ jobs:
           java -jar assets/exercisegenerator.jar -a hashMultiplicationQuadratic -x embedded -l 11 -e output/texExercises/hashMultiplicationQuadratic.tex -t output/texSolutions/hashMultiplicationQuadraticsol.tex
         shell: pwsh
 
-      - name: Copy and Generate PDFs
+      - name: Generate Exercise Files for Geschaeftsprozessmanagement
+        working-directory: src/demos/latex-demo
+        run: |
+          # Generate individual tex files for each exercise type
+          java -jar assets/exercisegenerator.jar -a coverability -x embedded -e output/texExercises/coverability.tex -t output/texSolutions/coverabilitysol.tex
+          java -jar assets/exercisegenerator.jar -a farkasplace -x embedded -e output/texExercises/farkasplace.tex -t output/texSolutions/farkasplacesol.tex
+          java -jar assets/exercisegenerator.jar -a farkastransition -x embedded -e output/texExercises/farkastransition.tex -t output/texSolutions/farkastransitionsol.tex
+        shell: pwsh
+
+      - name: Copy and Generate PDFs (Einfuerung in die Informatik)
         working-directory: src/demos/latex-demo
         run: |
           # Copy parent tex files
-          Copy-Item assets/Probeklausur.tex output/
-          Copy-Item assets/ProbeklausurLosung.tex output/
+          Copy-Item assets/ProbeklausurIT.tex output/
+          Copy-Item assets/ProbeklausurLosungIT.tex output/
           
           # Generate PDFs
           cd output
-          pdflatex -interaction=nonstopmode Probeklausur.tex
-          pdflatex -interaction=nonstopmode ProbeklausurLosung.tex
+          pdflatex -interaction=nonstopmode ProbeklausurIT.tex
+          pdflatex -interaction=nonstopmode ProbeklausurLosungIT.tex
+          
+          # Clean up auxiliary files
+          Remove-Item *.aux, *.log, *.out, *.toc -ErrorAction SilentlyContinue
+        shell: pwsh
+
+      - name: Copy and Generate PDFs (Geschaeftsprozessmanagement)
+        working-directory: src/demos/latex-demo
+        run: |
+          # Copy parent tex files again to avoid side-effects
+          Copy-Item assets/ProbeklausurGE.tex output/ProbeklausurGE.tex
+          Copy-Item assets/ProbeklausurLosungGE.tex output/ProbeklausurLosungGE.tex
+          
+          # Optionally, you could tweak seed/parameters here if supported
+          cd output
+          pdflatex -interaction=nonstopmode ProbeklausurGE.tex
+          pdflatex -interaction=nonstopmode ProbeklausurLosungGE.tex
           
           # Clean up auxiliary files
           Remove-Item *.aux, *.log, *.out, *.toc -ErrorAction SilentlyContinue
@@ -114,22 +150,42 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Exam PDF
+      - name: Upload Exam PDF A
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./src/demos/latex-demo/output/Probeklausur.pdf
-          asset_name: mock-exam.pdf
+          asset_path: ./src/demos/latex-demo/output/ProbeklausurIT.pdf
+          asset_name: ProbeklausurIT.pdf
           asset_content_type: application/pdf
 
-      - name: Upload Solutions PDF
+      - name: Upload Solutions PDF A
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./src/demos/latex-demo/output/ProbeklausurLosung.pdf
-          asset_name: mock-exam-solutions.pdf
+          asset_path: ./src/demos/latex-demo/output/ProbeklausurLosungIT.pdf
+          asset_name: ProbeklausurLosungIT.pdf
+          asset_content_type: application/pdf
+
+      - name: Upload Exam PDF B
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./src/demos/latex-demo/output/ProbeklausurGE.pdf
+          asset_name: ProbeklausurGE.pdf
+          asset_content_type: application/pdf
+
+      - name: Upload Solutions PDF B
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./src/demos/latex-demo/output/ProbeklausurLosungGE.pdf
+          asset_name: ProbeklausurLosungGE.pdf
           asset_content_type: application/pdf

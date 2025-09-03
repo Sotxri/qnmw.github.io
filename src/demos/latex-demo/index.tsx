@@ -25,7 +25,7 @@ export default function LatexGeneratorDemo() {
       const data = await response.json();
       
       // Filter for PDF files and transform into our format
-      const pdfFiles: PdfFile[] = data.assets
+      const allPdfs: PdfFile[] = data.assets
         .filter((asset: any) => asset.name.endsWith('.pdf'))
         .map((asset: any) => ({
           name: asset.name,
@@ -33,6 +33,19 @@ export default function LatexGeneratorDemo() {
           generatedAt: new Date(asset.created_at).toLocaleDateString(),
           size: formatFileSize(asset.size)
         }));
+
+      // Prefer ordered groups A/B if present
+      const order = [
+        'mock-exam-A.pdf',
+        'mock-exam-solutions-A.pdf',
+        'mock-exam-B.pdf',
+        'mock-exam-solutions-B.pdf',
+      ];
+
+      const pdfFiles: PdfFile[] = [
+        ...allPdfs.filter(f => order.includes(f.name)).sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name)),
+        ...allPdfs.filter(f => !order.includes(f.name)),
+      ];
       
       setFiles(pdfFiles);
       toast.success('PDF files retrieved successfully!');
@@ -74,34 +87,107 @@ export default function LatexGeneratorDemo() {
             </Button>
           </div>
 
-          <div className="grid gap-4">
-            {files.map((file) => (
-              <div 
-                key={file.name} 
-                className="flex items-center justify-between p-4 border rounded-lg bg-card"
-              >
-                <div className="flex items-center gap-3">
-                  <FileText className="h-8 w-8 text-red-500" />
-                  <div>
-                    <h3 className="font-medium">{file.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Generated: {file.generatedAt} • {file.size}
-                    </p>
-                  </div>
-                </div>
-                <Button asChild variant="outline">
-                  <a 
-                    href={file.url} 
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
+          <div className="space-y-6">
+            {files.length === 0 && !loading && (
+              <p className="text-sm text-muted-foreground">No PDFs found in the latest release.</p>
+            )}
+            <div className="grid gap-4">
+              {files
+                .filter(f => f.name.includes('mock-exam-A'))
+                .map((file) => (
+                  <div 
+                    key={file.name} 
+                    className="flex items-center justify-between p-4 border rounded-lg bg-card"
                   >
-                    <FileDown className="mr-2 h-4 w-4" />
-                    Download PDF
-                  </a>
-                </Button>
+                    <div className="flex items-center gap-3">
+                      <FileText className="h-8 w-8 text-red-500" />
+                      <div>
+                        <h3 className="font-medium">Exam A: {file.name.includes('solutions') ? 'Solutions' : 'Exam'}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Generated: {file.generatedAt} • {file.size}
+                        </p>
+                      </div>
+                    </div>
+                    <Button asChild variant="outline">
+                      <a 
+                        href={file.url} 
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FileDown className="mr-2 h-4 w-4" />
+                        Download PDF
+                      </a>
+                    </Button>
+                  </div>
+                ))}
+            </div>
+
+            <div className="grid gap-4">
+              {files
+                .filter(f => f.name.includes('mock-exam-B'))
+                .map((file) => (
+                  <div 
+                    key={file.name} 
+                    className="flex items-center justify-between p-4 border rounded-lg bg-card"
+                  >
+                    <div className="flex items-center gap-3">
+                      <FileText className="h-8 w-8 text-red-500" />
+                      <div>
+                        <h3 className="font-medium">Exam B: {file.name.includes('solutions') ? 'Solutions' : 'Exam'}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Generated: {file.generatedAt} • {file.size}
+                        </p>
+                      </div>
+                    </div>
+                    <Button asChild variant="outline">
+                      <a 
+                        href={file.url} 
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FileDown className="mr-2 h-4 w-4" />
+                        Download PDF
+                      </a>
+                    </Button>
+                  </div>
+                ))}
+            </div>
+
+            {files.some(f => !f.name.includes('mock-exam-A') && !f.name.includes('mock-exam-B')) && (
+              <div className="grid gap-4">
+                {files
+                  .filter(f => !f.name.includes('mock-exam-A') && !f.name.includes('mock-exam-B'))
+                  .map((file) => (
+                    <div 
+                      key={file.name} 
+                      className="flex items-center justify-between p-4 border rounded-lg bg-card"
+                    >
+                      <div className="flex items-center gap-3">
+                        <FileText className="h-8 w-8 text-red-500" />
+                        <div>
+                          <h3 className="font-medium">{file.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Generated: {file.generatedAt} • {file.size}
+                          </p>
+                        </div>
+                      </div>
+                      <Button asChild variant="outline">
+                        <a 
+                          href={file.url} 
+                          download
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <FileDown className="mr-2 h-4 w-4" />
+                          Download PDF
+                        </a>
+                      </Button>
+                    </div>
+                  ))}
               </div>
-            ))}
+            )}
           </div>
         </CardContent>
       </Card>
