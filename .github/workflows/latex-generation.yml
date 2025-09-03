@@ -35,20 +35,16 @@ jobs:
       - name: Install Essential LaTeX Packages
         run: |
           miktex --verbose packages update
+           miktex --verbose packages install collection-basic
+          miktex --verbose packages install collection-latex
+          miktex --verbose packages install collection-latexrecommended
+          miktex --verbose packages install collection-latexextra
+          miktex --verbose packages install collection-fontsrecommended
+          miktex --verbose packages install collection-pictures
           miktex --verbose packages install pgf
           miktex --verbose packages install tikz-qtree
           miktex --verbose packages install siunitx
           miktex --verbose packages install seqsplit
-          miktex --verbose packages install babel-german
-          miktex --verbose packages install hyphen-german
-          miktex --verbose packages install lmodern
-          miktex --verbose packages install enumitem
-          miktex --verbose packages install adjustbox
-          miktex --verbose packages install collectbox
-          miktex --verbose packages install multicol
-          miktex --verbose packages install geometry
-          miktex --verbose packages install xcolor
-          miktex --verbose packages install amsmath
         shell: pwsh
 
       - name: Create Output Directories
