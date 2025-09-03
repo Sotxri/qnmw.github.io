@@ -55,7 +55,6 @@ jobs:
           miktex --verbose packages install geometry
           miktex --verbose packages install xcolor
           miktex --verbose packages install amsmath
-          miktex --verbose packages install array
         shell: pwsh
 
       - name: Create Output Directories
