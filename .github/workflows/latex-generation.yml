@@ -118,10 +118,21 @@ jobs:
           
           # Generate PDFs
           cd output
-          pdflatex -interaction=nonstopmode ProbeklausurIT.tex
-          pdflatex -interaction=nonstopmode ProbeklausurLosungIT.tex
-          
-          # Clean up auxiliary files
+          $ErrorActionPreference = 'Stop'
+          function Build-One([string]$f) {
+            pdflatex -interaction=nonstopmode -halt-on-error $f
+            $code = $LASTEXITCODE
+            pdflatex -interaction=nonstopmode -halt-on-error $f
+            $code2 = $LASTEXITCODE
+            $pdf = [System.IO.Path]::ChangeExtension($f,'.pdf')
+            if ((-not (Test-Path $pdf)) -and ($code -ne 0 -or $code2 -ne 0)) {
+              throw "pdflatex failed for $f (exit $code / $code2) and no PDF produced."
+            }
+            # reset so the step doesn’t fail on benign nonzero exit
+            $global:LASTEXITCODE = 0
+          }
+          Build-One 'ProbeklausurIT.tex'
+          Build-One 'ProbeklausurLosungIT.tex'
           Remove-Item *.aux, *.log, *.out, *.toc -ErrorAction SilentlyContinue
         shell: pwsh
 
@@ -134,10 +145,21 @@ jobs:
           
           # Optionally, you could tweak seed/parameters here if supported
           cd output
-          pdflatex -interaction=nonstopmode ProbeklausurGE.tex
-          pdflatex -interaction=nonstopmode ProbeklausurLosungGE.tex
-          
-          # Clean up auxiliary files
+          $ErrorActionPreference = 'Stop'
+          function Build-One([string]$f) {
+            pdflatex -interaction=nonstopmode -halt-on-error $f
+            $code = $LASTEXITCODE
+            pdflatex -interaction=nonstopmode -halt-on-error $f
+            $code2 = $LASTEXITCODE
+            $pdf = [System.IO.Path]::ChangeExtension($f,'.pdf')
+            if ((-not (Test-Path $pdf)) -and ($code -ne 0 -or $code2 -ne 0)) {
+              throw "pdflatex failed for $f (exit $code / $code2) and no PDF produced."
+            }
+            # reset so the step doesn’t fail on benign nonzero exit
+            $global:LASTEXITCODE = 0
+          }
+          Build-One 'ProbeklausurGE.tex'
+          Build-One 'ProbeklausurLosungGE.tex'
           Remove-Item *.aux, *.log, *.out, *.toc -ErrorAction SilentlyContinue
         shell: pwsh
 
