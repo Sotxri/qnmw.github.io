@@ -32,20 +32,36 @@ jobs:
           echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         shell: pwsh
 
-      - name: Install Essential LaTeX Packages
-        run: |
-          miktex --verbose packages update
-           miktex --verbose packages install collection-basic
-          miktex --verbose packages install collection-latex
-          miktex --verbose packages install collection-latexrecommended
-          miktex --verbose packages install collection-latexextra
-          miktex --verbose packages install collection-fontsrecommended
-          miktex --verbose packages install collection-pictures
-          miktex --verbose packages install pgf
-          miktex --verbose packages install tikz-qtree
-          miktex --verbose packages install siunitx
-          miktex --verbose packages install seqsplit
+
+      - name: Install Essential LaTeX Packages (MiKTeX mpm)
         shell: pwsh
+        run: |
+          # Finish MiKTeX setup and ensure admin install is ready
+          
+          miktexsetup --finish --shared || $true
+      
+          # Update package database and MiKTeX itself
+          mpm --admin --update-db
+          mpm --admin --update
+      
+          # Install what you actually need; adjustbox lives in latexextra
+          mpm --admin --install=collection-latex
+          mpm --admin --install=collection-latexrecommended
+          mpm --admin --install=collection-latexextra
+          mpm --admin --install=collection-fontsrecommended
+          mpm --admin --install=collection-pictures
+      
+          # (Optional but safe) explicitly ensure adjustbox and deps are present
+          mpm --admin --install=adjustbox
+          mpm --admin --install=collectbox
+          mpm --admin --install=varwidth
+          mpm --admin --install=xkeyval
+      
+          # Refresh filename DB
+          initexmf --admin --update-fndb
+      
+          # Quick sanity check: should print a path, not blank
+          kpsewhich adjustbox.sty
 
       - name: Create Output Directories
         run: |
