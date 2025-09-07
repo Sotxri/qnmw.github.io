@@ -32,41 +32,66 @@ jobs:
           echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         shell: pwsh
 
-
-      - name: Install Essential LaTeX Packages (MiKTeX mpm)
+      - name: Initialize MiKTeX and Install Packages
         shell: pwsh
         run: |
-          # Finish MiKTeX setup and ensure admin install is ready
-          
-          miktexsetup --finish --shared || $true
-      
-          # Update package database and MiKTeX itself
-          mpm --admin --update-db
-          mpm --admin --update
-      
-          # Install what you actually need; adjustbox lives in latexextra
-          mpm --admin --install=collection-latex
-          mpm --admin --install=collection-latexrecommended
-          mpm --admin --install=collection-latexextra
-          mpm --admin --install=collection-fontsrecommended
-          mpm --admin --install=collection-pictures
-      
-          # (Optional but safe) explicitly ensure adjustbox and deps are present
-          mpm --admin --install=adjustbox
-          mpm --admin --install=collectbox
-          mpm --admin --install=varwidth
-          mpm --admin --install=xkeyval
-      
-          # Refresh filename DB
+          # Initialize MiKTeX properly
+          Write-Host "Initializing MiKTeX..."
+          initexmf --admin --set-config-value=[MPM]AutoInstall=1
           initexmf --admin --update-fndb
-      
-          # Quick sanity check: should print a path, not blank
-          kpsewhich adjustbox.sty
+          miktex --admin packages update-database
+          
+          # Install core collections first
+          Write-Host "Installing LaTeX collections..."
+          mpm --admin --verbose --install=latex-base
+          mpm --admin --verbose --install=latex-recommended
+          mpm --admin --verbose --install=latex-extra
+          mpm --admin --verbose --install=fonts-recommended
+          
+          # Install specific packages that are commonly needed
+          Write-Host "Installing specific packages..."
+          $packages = @(
+            "adjustbox",
+            "collectbox", 
+            "varwidth",
+            "xkeyval",
+            "graphicx",
+            "xcolor",
+            "amsmath",
+            "amsfonts",
+            "amssymb",
+            "geometry",
+            "fancyhdr",
+            "hyperref",
+            "enumitem",
+            "tikz",
+            "pgf",
+            "etoolbox"
+          )
+          
+          foreach ($package in $packages) {
+            Write-Host "Installing $package..."
+            mpm --admin --verbose --install=$package
+          }
+          
+          # Update filename database
+          Write-Host "Updating filename database..."
+          initexmf --admin --update-fndb
+          
+          # Verify adjustbox installation
+          Write-Host "Verifying adjustbox installation..."
+          $adjustboxPath = kpsewhich adjustbox.sty
+          if (-not $adjustboxPath) {
+            Write-Error "adjustbox.sty not found after installation!"
+            exit 1
+          } else {
+            Write-Host "adjustbox.sty found at: $adjustboxPath"
+          }
 
       - name: Create Output Directories
         run: |
-          mkdir -p src/demos/latex-demo/output/texExercises
-          mkdir -p src/demos/latex-demo/output/texSolutions
+          New-Item -ItemType Directory -Force -Path "src/demos/latex-demo/output/texExercises"
+          New-Item -ItemType Directory -Force -Path "src/demos/latex-demo/output/texSolutions"
         shell: pwsh
 
       - name: Generate Exercise Files for Einfuerung in die Informatik
@@ -109,6 +134,34 @@ jobs:
           java -jar assets/exercisegenerator.jar -a farkastransition -x embedded -e output/texExercises/farkastransition.tex -t output/texSolutions/farkastransitionsol.tex
         shell: pwsh
 
+      - name: Test LaTeX Package Availability
+        working-directory: src/demos/latex-demo/output
+        run: |
+          # Test if adjustbox is available before building
+          Write-Host "Testing package availability..."
+          
+          $testFile = @"
+          \documentclass{article}
+          \usepackage{adjustbox}
+          \begin{document}
+          \begin{adjustbox}{max width=\textwidth,center}
+          Test content
+          \end{adjustbox}
+          \end{document}"@
+          
+          Set-Content -Path "test.tex" -Value $testFile
+          
+          Write-Host "Running test compilation..."
+          pdflatex -interaction=nonstopmode test.tex
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "Test compilation failed. Checking available packages..."
+            Get-ChildItem "C:\Program Files\MiKTeX\tex\latex" -Recurse -Filter "adjustbox*" | ForEach-Object { Write-Host $_.FullName }
+            throw "adjustbox package test failed"
+          }
+          Write-Host "Test compilation successful!"
+          Remove-Item test.*
+        shell: pwsh
+
       - name: Copy and Generate PDFs (Einfuerung in die Informatik)
         working-directory: src/demos/latex-demo
         run: |
@@ -120,17 +173,32 @@ jobs:
           cd output
           $ErrorActionPreference = 'Stop'
           function Build-One([string]$f) {
+            Write-Host "Building $f..."
+            
+            # First pass
             pdflatex -interaction=nonstopmode -halt-on-error $f
-            $code = $LASTEXITCODE
-            pdflatex -interaction=nonstopmode -halt-on-error $f
+            $code1 = $LASTEXITCODE
+            
+            # Second pass for references
+            pdflatex -interaction=nonstopmode -halt-on-error $f  
             $code2 = $LASTEXITCODE
+            
             $pdf = [System.IO.Path]::ChangeExtension($f,'.pdf')
-            if ((-not (Test-Path $pdf)) -and ($code -ne 0 -or $code2 -ne 0)) {
-              throw "pdflatex failed for $f (exit $code / $code2) and no PDF produced."
+            
+            if (-not (Test-Path $pdf)) {
+              Write-Host "PDF was not created. Exit codes: $code1, $code2"
+              if (Test-Path ([System.IO.Path]::ChangeExtension($f,'.log'))) {
+                Write-Host "LaTeX log contents:"
+                Get-Content ([System.IO.Path]::ChangeExtension($f,'.log')) | Select-Object -Last 50
+              }
+              throw "pdflatex failed for $f (exit $code1 / $code2) and no PDF produced."
             }
-            # reset so the step doesn’t fail on benign nonzero exit
+            
+            Write-Host "Successfully created $pdf"
+            # reset so the step doesn't fail on benign nonzero exit
             $global:LASTEXITCODE = 0
           }
+          
           Build-One 'ProbeklausurIT.tex'
           Build-One 'ProbeklausurLosungIT.tex'
           Remove-Item *.aux, *.log, *.out, *.toc -ErrorAction SilentlyContinue
@@ -143,21 +211,35 @@ jobs:
           Copy-Item assets/ProbeklausurGE.tex output/ProbeklausurGE.tex
           Copy-Item assets/ProbeklausurLosungGE.tex output/ProbeklausurLosungGE.tex
           
-          # Optionally, you could tweak seed/parameters here if supported
           cd output
           $ErrorActionPreference = 'Stop'
           function Build-One([string]$f) {
+            Write-Host "Building $f..."
+            
+            # First pass
             pdflatex -interaction=nonstopmode -halt-on-error $f
-            $code = $LASTEXITCODE
+            $code1 = $LASTEXITCODE
+            
+            # Second pass for references  
             pdflatex -interaction=nonstopmode -halt-on-error $f
             $code2 = $LASTEXITCODE
+            
             $pdf = [System.IO.Path]::ChangeExtension($f,'.pdf')
-            if ((-not (Test-Path $pdf)) -and ($code -ne 0 -or $code2 -ne 0)) {
-              throw "pdflatex failed for $f (exit $code / $code2) and no PDF produced."
+            
+            if (-not (Test-Path $pdf)) {
+              Write-Host "PDF was not created. Exit codes: $code1, $code2"
+              if (Test-Path ([System.IO.Path]::ChangeExtension($f,'.log'))) {
+                Write-Host "LaTeX log contents:"
+                Get-Content ([System.IO.Path]::ChangeExtension($f,'.log')) | Select-Object -Last 50
+              }
+              throw "pdflatex failed for $f (exit $code1 / $code2) and no PDF produced."
             }
-            # reset so the step doesn’t fail on benign nonzero exit
+            
+            Write-Host "Successfully created $pdf"
+            # reset so the step doesn't fail on benign nonzero exit
             $global:LASTEXITCODE = 0
           }
+          
           Build-One 'ProbeklausurGE.tex'
           Build-One 'ProbeklausurLosungGE.tex'
           Remove-Item *.aux, *.log, *.out, *.toc -ErrorAction SilentlyContinue
