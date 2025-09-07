@@ -133,35 +133,7 @@ jobs:
           java -jar assets/exercisegenerator.jar -a farkasplace -x embedded -e output/texExercises/farkasplace.tex -t output/texSolutions/farkasplacesol.tex
           java -jar assets/exercisegenerator.jar -a farkastransition -x embedded -e output/texExercises/farkastransition.tex -t output/texSolutions/farkastransitionsol.tex
         shell: pwsh
-
-      - name: Test LaTeX Package Availability
-        working-directory: src/demos/latex-demo/output
-        run: |
-          # Test if adjustbox is available before building
-          Write-Host "Testing package availability..."
-          
-          $testFile = @"
-          \documentclass{article}
-          \usepackage{adjustbox}
-          \begin{document}
-          \begin{adjustbox}{max width=\textwidth,center}
-          Test content
-          \end{adjustbox}
-          \end{document}"@
-          
-          Set-Content -Path "test.tex" -Value $testFile
-          
-          Write-Host "Running test compilation..."
-          pdflatex -interaction=nonstopmode test.tex
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "Test compilation failed. Checking available packages..."
-            Get-ChildItem "C:\Program Files\MiKTeX\tex\latex" -Recurse -Filter "adjustbox*" | ForEach-Object { Write-Host $_.FullName }
-            throw "adjustbox package test failed"
-          }
-          Write-Host "Test compilation successful!"
-          Remove-Item test.*
-        shell: pwsh
-
+      
       - name: Copy and Generate PDFs (Einfuerung in die Informatik)
         working-directory: src/demos/latex-demo
         run: |
