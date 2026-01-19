@@ -20,7 +20,6 @@ author:
 			- $k^{''}(x) < 0$ = Maximum
 			- $k^{''}(x) > 0$ = Minimum
 		- Nullstelle in Grundfunktion einsetzen, um $y$ Wert zu erhalten
-
 - _Betriebsminimum_
 	- Produktionsmenge bei der die **variablen Stückkosten** minimal sind
 	- Stückkosten = **kurzfristige Preisuntergrenze**

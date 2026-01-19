@@ -1,6 +1,6 @@
 ---
-title: "Maßzahlen für statische Verteilungen"
-excerpt: "Eine Einführung in Maßzahlen für statische Verteilungen"
+title: "Maßzahlen für statistische Verteilungen"
+excerpt: "Eine Einführung in Maßzahlen für statistische Verteilungen"
 date: "2024-11-08"
 tags: ["Mathe", "Statistik", "2. Semester"]
 readTime: "5 min read"

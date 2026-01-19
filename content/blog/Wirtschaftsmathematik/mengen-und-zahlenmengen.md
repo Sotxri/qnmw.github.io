@@ -15,11 +15,9 @@ author:
 	- $\in \, = \text{ist Element von}$
 	- $\notin \, =  \text{ist NICHT Element von; alternativ: } \; \neg(x\in M)$
 	- $\emptyset = \text{leere Menge; alternativ: }\{x:x\neq x\}$
-
 - **Aufbau**
 	- Deskriptive/Beschreibende Schreibweise: $$A =  \stackrel{\text{x ist Element von der Menge } \mathbb N\text{ für das gilt}}{\{x \in \mathbb N}: \stackrel{\text{es existiert EIN y in der Menge } \mathbb{N}}{\exists y \in \mathbb N :} \; \stackrel{\text{für das gilt }y^2 = x}{y^2=x}\; \stackrel{und}\wedge   \;\stackrel{\text{y größer-gleich 2}}{y \geq 2}\}$$
 	- Aufzählende Schreibweise: $A = \{4,9,16,25,...\}$
-
 - **Definitionen**:
 	- **Gleichheit**: 
 		- Menge A und Menge B heißen **gleich**, wenn sie genau dieselben _Elemente_ beinhalten.
@@ -42,7 +40,6 @@ author:
 		- Menge aller Elemente, welche Element von Menge A, aber nicht von B sind.
 		- Beispiel: $$A = \{1,2,3,4\},\;B = \{3,4\}\;,\text{dann ist }A\setminus B = \{1,2\}$$
 		- Die Menge $\overline A = G \setminus A$ heißt die **Komplementmenge** von A (in G).
-
 - **Rechenregeln**:
 	- Kommutativgesetze
 	$$
@@ -65,9 +62,8 @@ author:
 	A \setminus (B\cup C) = (A\setminus B) \cap (A\setminus C) \\
 	\overline{A \cap B} = \overline A \cup \overline B \\
 	\overline{A \cup B} = \overline A \cap \overline B
-	$$
-
-**Intervalle** $$\text{Seien }a,b\in \mathbb{R}\text{ mit } a<b\text{, dann sind:}$$
-- _abgeschlossenes_ Intervall: $$[a,b] = \{x \in \mathbb{R}: a \leq x \leq b\}$$
-- _offenes_ Intervall: $$(a,b)=\{x \in \mathbb{R}: a < x < b\}$$
-- _halboffenes_ Intervall: $$(a,b] = \{x \in \mathbb{R}: a < x \leq b\}$$
+    $$
+- **Intervalle** $$\text{Seien }a,b\in \mathbb{R}\text{ mit } a<b\text{, dann sind:}$$
+  - _abgeschlossenes_ Intervall: $$[a,b] = \{x \in \mathbb{R}: a \leq x \leq b\}$$
+  - _offenes_ Intervall: $$(a,b)=\{x \in \mathbb{R}: a < x < b\}$$
+  - _halboffenes_ Intervall: $$(a,b] = \{x \in \mathbb{R}: a < x \leq b\}$$

@@ -12,7 +12,6 @@ author:
 ###### **Gleichungen**
 
 - Eine Gleichung ist eine Aussage der Form $T_1 = T_2$, wobei $T_1$ und $T_2$ Terme sind.
-
 - **Äquivalenzumformungen:**
 	- **Addition:** $T_1 = T_2 \Leftrightarrow T_1 + T_3 = T_2 + T_3$
 	- **Subtraktion:** $T_1 = T_2 \Leftrightarrow T_1 - T_3 = T_2 - T_3$
@@ -26,14 +25,12 @@ author:
 	- **Wurzelziehen:**
 		- $T_1 = T_2 \Leftrightarrow \sqrt[n]{T_1} = \sqrt[n]{T_2}$ (für ungerades $n \in \mathbb N$)
 		- $T_1 = T_2 \Leftrightarrow \sqrt[n]{T_1} = \sqrt[n]{T_2} \vee \sqrt[n]{T_1} = -\sqrt[n]{T_2}$ (für gerades $n \in \mathbb N$)
-
 - **Lineare Gleichungen:**
 	- **Form:** $a_1x + b_1y = c_1$ und $a_2x + b_2y = c_2$
 	- **Verfahren zur Lösung:**
 		- Additionsverfahren
 		- Gleichsetzungsverfahren
 		- Einsetzungsverfahren
-
 - **Quadratische Gleichungen:**
 	- **Form:** $ax^2 + bx + c = 0$ mit $a \neq 0$
 	- **Verfahren zur Lösung:**
@@ -51,7 +48,6 @@ author:
 			- 1. Auf Normalform bringen durch Division durch $a$
 			- 2. $(\frac{p}{2})^2$ auf beiden Seiten addieren
 			- 3. Binomische Formeln anwenden und nach $x$ auflösen
-
 - **Gleichungen n-ten Grades:**
 	- **Verfahren zur Lösung:**
 		- Auf einen Grad $n - 1$ reduzieren
@@ -62,7 +58,6 @@ author:
 			- 4. Ergebnis von der Gleichung subtrahieren
 			- 5. Wiederholen, bis kein $x$ mehr übrig ist
 			- 6. Rest als $\frac{\text{Rest}}{\text{Divisor}}$ zum Ergebnis hinzufügen
-
 		- Weitere Methoden: Regula falsi, Newton-Verfahren
 
 

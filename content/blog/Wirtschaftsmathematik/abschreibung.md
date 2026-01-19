@@ -33,15 +33,12 @@ abbreviations:
 ###### **Abschreibungen**
 
 - **Formeln:**
-
 	- **Geometrische-Degressive Abschreibung:**
 		- Abschreibungsbetrag im Jahr $t$: $a_t = K_0 \times (1 - \alpha)^{t - 1} \times \alpha$
 		- Restwert nach $t$ Jahren: $K_t = K_0 \times (1 - \alpha)^t$
-
 	- **Lineare Abschreibung:**
 		- Abschreibungsbetrag im Jahr $t$: $a_t = \frac{K_0}{n}$
 		- Restwert nach $t$ Jahren: $K_t = K_0 - t \times a_t$
-
 	- **Arithmetisch-Degressive Abschreibung:**
 		- Abschreibungsbetrag im Jahr $t$: $a_t = (n - t + 1) \times \Delta d$
 		- Degressionsbetrag: $\Delta d = \frac{\frac{K_0}{n \times (n + 1)}}{2}$

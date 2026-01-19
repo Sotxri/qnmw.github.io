@@ -8,7 +8,7 @@ author:
   name: "QNMW"
   avatar: /favicon.ico
 ---
-###### **Ableitungen**
+### **Ableitungen**
 
 - **Formeln**
 	- **Differenzenquotient** 
@@ -18,17 +18,14 @@ author:
 		- Falls $f^{'}(x_0)$ existiert, heißt $f$ differenzierbar an der Stelle $x_0$
 	- **Tangentengleichung**
 		- $y = f^{'}(x_{0}) \times (x - x_0) + f(x_0)$
-
 - **Allgemein**
 	- Ist $f^{''}(x) > 0$, so heißt $f$ konvex (an der Stelle $x$)
 	- Ist $f^{''}(x) < 0$, so heißt $f$ konkav (an der Stelle $x$)
-
 - **Steigungsverhalten**
 	- Ist $f^{'}(x) > 0$ und $f^{''}(x) > 0$, so ist $f$ _progressiv_ steigend
 	- Ist $f^{'}(x) > 0$ und $f^{''}(x) < 0$, so ist $f$ _degressiv_ steigend
 	- Ist $f^{'}(x) < 0$ und $f^{''}(x) > 0$, so ist $f$ abnehmend fallend
 	- Ist $f^{'}(x) < 0$ und $f^{''}(x) < 0$, so ist $f$ zunehmend fallend
-
 - **Ableitungen von ökonomischen Funktionen**
 	- **Umsatzfunktion** $U(x)/U(p)$
 		- Ableitung nach Menge $U^{'}(x)$: _Grenzerlösfunktion bezogen auf die Menge_

@@ -32,7 +32,6 @@ Neben Beschaffungskosten gibt es
 - _Lagerkosten_: 
 	- Hängen von **mengen-** und **wertmäßgen** Lagerbestand/-Dauer ab. 
 Beide Kostenarten stehen im Konflikt miteinander
-
 **Formeln**
 - **Kostenfunktion** = $l \times \frac{Q}{2} + K_f \times z$ 
   - Es gilt: 
